@@ -19,6 +19,7 @@
   home.packages = [
     pkgs.radare2
     pkgs.rp-lin
+    pkgs.pwninit
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -119,7 +120,7 @@
         fi
 
         # Build prompt
-        PROMPT="''${STATUS}''${PROMPT_COLOR_DIR}%~''${PROMPT_COLOR_RESET} ''${TIME_DISPLAY}%# "
+        PROMPT="''${STATUS}''${PROMPT_COLOR_DIR}%~''${PROMPT_COLOR_RESET}''${TIME_DISPLAY} %# "
       }
 
       # Enable the prompt updates
