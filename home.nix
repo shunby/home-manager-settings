@@ -1,10 +1,12 @@
 { config, pkgs, ... }:
-
+let
+  username = import ./username.nix;
+in
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "explosion";
-  home.homeDirectory = "/home/explosion";
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -20,6 +22,14 @@
     pkgs.radare2
     pkgs.rp-lin
     pkgs.pwninit
+    pkgs.gh
+    (pkgs.texlive.combine {
+      inherit (pkgs.texlive) scheme-medium collection-langjapanese;
+    })
+    pkgs.pandoc
+    pkgs.bc
+    pkgs.nil # nix language server
+    pkgs.ffmpeg
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
