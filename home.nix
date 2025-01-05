@@ -30,6 +30,7 @@ in
     pkgs.bc
     pkgs.nil # nix language server
     pkgs.ffmpeg
+    pkgs.python3
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -129,8 +130,17 @@ in
           local TIME_DISPLAY=""
         fi
 
+        # Display python venv
+        if [[ -n "$VIRTUAL_ENV" ]]; then
+          local VENV_DISPLAY="(venv) "
+        else
+          local VENV_DISPLAY=""
+        fi
+
+        unset PREEXEC_CALLED
+
         # Build prompt
-        PROMPT="''${STATUS}''${PROMPT_COLOR_DIR}%~''${PROMPT_COLOR_RESET}''${TIME_DISPLAY} %# "
+        PROMPT="''${VENV_DISPLAY}''${STATUS}''${PROMPT_COLOR_DIR}%~''${PROMPT_COLOR_RESET}''${TIME_DISPLAY} %# "
       }
 
       # Enable the prompt updates
