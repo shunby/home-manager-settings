@@ -89,7 +89,10 @@ in
     shellAliases = {
       ls = "ls --color=auto";
       ll = "ls -lsah";
-      "r2riscv" = "r2 -e asm.arch=riscv";
+      r2riscv = "r2 -e asm.arch=riscv";
+      conf-home = "code ~/.config/home-manager";
+      mkvenv = "python -m venv .venv";
+      venvctf = ". ~/dev/ctf/.venv/bin/activate";
     };
     initExtra = ''
       # Home/End/Del keybind
@@ -108,23 +111,25 @@ in
 
       # Function to display execution time
       function preexec() {
+        PREEXEC_CALLED=1
         TIMER_START=$EPOCHREALTIME
       }
 
       function precmd() {
+        local EXIT_CODE=$?
         local TIMER_END=$EPOCHREALTIME
         local TIMER_DIFF=$(printf "%.2f" $(echo "$TIMER_END - $TIMER_START" | bc -l 2>/dev/null))
         TIMER_DIFF=$(printf "%.2f" "''${TIMER_DIFF:-0}")
 
         # Display non-zero exit code
-        if [[ $? -ne 0 ]]; then
-          local STATUS="''${PROMPT_COLOR_STATUS}[$?]''${PROMPT_COLOR_RESET} "
+        if [[ $EXIT_CODE -ne 0 && $PREEXEC_CALLED -eq 1 ]]; then
+          local STATUS="''${PROMPT_COLOR_STATUS}[''${EXIT_CODE}]''${PROMPT_COLOR_RESET} "
         else
           local STATUS=""
         fi
 
         # Display execution time only if not 0.00
-        if [[ "$TIMER_DIFF" != "0.00" ]]; then
+        if [[ "$TIMER_DIFF" != "0.00" && $PREEXEC_CALLED -eq 1 ]]; then
           local TIME_DISPLAY=" ''${PROMPT_COLOR_TIME}[''${TIMER_DIFF}s]''${PROMPT_COLOR_RESET}"
         else
           local TIME_DISPLAY=""
