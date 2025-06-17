@@ -24,14 +24,25 @@ in
     pkgs.pwninit
     pkgs.gh
     (pkgs.texlive.combine {
-      inherit (pkgs.texlive) scheme-medium collection-langjapanese;
+      inherit (pkgs.texlive) scheme-medium collection-langjapanese braket;
     })
     pkgs.pandoc
     pkgs.bc
     pkgs.nil # nix language server
     pkgs.ffmpeg
-    pkgs.python3
-
+    # pkgs.python3
+    pkgs.sass
+    pkgs.rustup
+    pkgs.file
+    # pkgs.gcc
+    pkgs.unzip
+    pkgs.patchelf
+    pkgs.bison
+    pkgs.gawk
+    pkgs.gnum4
+    pkgs.texinfo
+    pkgs.jq
+    pkgs.ncdu
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
     # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
@@ -152,6 +163,8 @@ in
       setopt PROMPT_SUBST
       '';
   };
+
+  programs.direnv.enable = true;
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
